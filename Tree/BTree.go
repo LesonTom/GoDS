@@ -14,11 +14,49 @@ func NewBTree() *BTree {
 	return &BTree{}
 }
 
+func insert(node *Node, val int) *Node {
+	if node == nil {
+		return &Node{Val: val}
+	}
+
+	if val < node.Val {
+		node.Left = insert(node.Left, val)
+	}
+	if val > node.Val {
+		node.Right = insert(node.Right, val)
+	}
+	return node
+}
+
 func (t *BTree) Insert(val int) {
+	t.Root = insert(t.Root, val)
+}
+
+func search(node *Node, val int) *Node {
+	if node == nil {
+		return nil
+	}
+
+	if node.Val == val {
+		return node
+	}
+
+	if node.Val > val {
+		return search(node.Left, val)
+	}
+	return search(node.Right, val)
 }
 
 func (t *BTree) Search(val int) *Node {
-	return nil
+	node := search(t.Root, val)
+	return node
+}
+
+func delete(node *Node, val int) {
+	if node == nil {
+		return
+	}
+
 }
 
 func (t *BTree) Delete(val int) {
